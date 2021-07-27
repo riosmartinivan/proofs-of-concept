@@ -1,0 +1,64 @@
+version: '3.5'
+services:
+
+  users-postgres:
+    image: postgres:11
+    volumes:
+      - ./data/users-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=usersdev
+    networks:
+      - users
+
+  pets-postgres:
+    image: postgres:11
+    volumes:
+      - ./data/animals-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=petsdev
+    networks:
+      - pets
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    ports:
+      - 9090:8080
+    env_file:
+      - ./user-service/.env
+    volumes:
+      - ./user-service:/app/sources
+    depends_on:
+      - users-postgres
+    networks:
+      - users
+      - main
+
+  pet-service:
+    build:
+      context: ./pet-service
+      dockerfile: Dockerfile
+    ports:
+      - 9091:8080
+    env_file:
+      - ./pet-service/.env
+    volumes:
+      - ./pet-service:/app/sources
+    depends_on:
+      - pets-postgres
+    networks:
+      - pets
+      - main
+
+networks:
+  main:
+    driver: bridge
+  users:
+    driver: bridge
+  pets:
+    driver: bridge

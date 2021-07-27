@@ -1,0 +1,17 @@
+spring:
+  h2:
+    console:
+      enabled: true
+  r2dbc:
+    url: r2dbc:h2:mem://./testdb
+    username: sa
+    password: password
+
+com:
+  phorus:
+    userservice:
+      services:
+        petServiceUrl: http://localhost:9091
+
+server:
+  port: 9090
