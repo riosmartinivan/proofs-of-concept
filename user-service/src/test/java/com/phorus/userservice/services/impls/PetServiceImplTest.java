@@ -1,0 +1,55 @@
+package com.phorus.userservice.services.impls;
+
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.phorus.userservice.exceptions.BadRequestException;
+import com.phorus.userservice.exceptions.ResourceNotFoundException;
+import com.phorus.userservice.services.PetService;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
+class PetServiceImplTest {
+
+    private final PetService petService;
+
+    private WireMockServer wireMockServer;
+
+    @Autowired
+    public PetServiceImplTest(PetService petService) {
+        this.petService = petService;
+    }
+
+    @BeforeEach
+    public void setup () {
+        wireMockServer = new WireMockServer(9091);
+        wireMockServer.start();
+    }
+
+    @AfterEach
+    public void teardown () {
+        wireMockServer.stop();
+    }
+
+    @Test
+    void getAmountOfPets() {
+        wireMockServer.stubFor(get(urlEqualTo("/pets/getAmountOfPets?userId=1"))
+                .willReturn(aResponse().withHeader("Content-Type", "application/json")
+                        .withStatus(200).withBody("3")));
+
+        Long response = petService.getAmountOfPets(1L);
+
+        assertEquals(3L, response);
+    }
+}
