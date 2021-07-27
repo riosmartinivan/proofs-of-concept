@@ -1,0 +1,14 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://${USERS_DB_SERVER}/usersdev
+    username: test
+    password: test
+
+  jackson:
+    default-property-inclusion: NON_NULL
+
+com:
+  phorus:
+    userservice:
+      services:
+        petServiceUrl: http://${PET_SERVICE}:8080

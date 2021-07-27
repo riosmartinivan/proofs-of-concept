@@ -1,0 +1,4 @@
+package com.phorus.petservice.model.validationGroups
+
+interface PetCreateValGroup
+interface PetUpdateValGroup

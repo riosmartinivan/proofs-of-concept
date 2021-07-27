@@ -1,0 +1,4 @@
+package com.phorus.userservice.model.validationGroups;
+
+interface UserCreateValGroup
+interface UserUpdateValGroup
