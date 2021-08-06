@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
 
-class UserDTOTest {
+internal class UserDTOTest {
 
     private val validator: Validator = Validation.buildDefaultValidatorFactory().validator
 

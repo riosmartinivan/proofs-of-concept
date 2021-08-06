@@ -17,7 +17,7 @@ import kotlin.test.fail
 
 
 @ExtendWith(MockitoExtension::class)
-class UserServiceImplTest {
+internal class UserServiceImplTest {
 
     @Mock
     lateinit var userRepository: UserRepository

@@ -1,0 +1,15 @@
+com:
+  phorus:
+    gateway:
+      paths:
+        user-service: localhost:9090
+        pet-service: localhost:9091
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway, health
+
+server:
+  port: 9099

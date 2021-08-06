@@ -1,0 +1,19 @@
+com:
+  phorus:
+    gateway:
+      paths:
+        user-service: user-service:8080
+        pet-service: pet-service:8080
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE

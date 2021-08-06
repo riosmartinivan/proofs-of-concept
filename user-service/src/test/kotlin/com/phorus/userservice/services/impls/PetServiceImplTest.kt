@@ -22,7 +22,7 @@ import kotlin.test.fail
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("test")
-class PetServiceImplTest(
+internal class PetServiceImplTest(
     @Autowired var petService: PetService,
 ) {
 
