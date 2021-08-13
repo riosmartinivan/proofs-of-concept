@@ -1,7 +1,7 @@
 package com.phorus.petservice.controllers
 
-import com.phorus.petservice.mappings.toEntity
-import com.phorus.petservice.mappings.toResponse
+import com.phorus.petservice.config.mapTo
+import com.phorus.petservice.model.dbentities.Pet
 import com.phorus.petservice.model.dtos.PetDTO
 import com.phorus.petservice.model.dtos.PetResponse
 import com.phorus.petservice.model.validationGroups.PetCreateValGroup
@@ -22,7 +22,7 @@ class PetController(
     @GetMapping("/{petId}")
     suspend fun get(@PathVariable petId: Long): ResponseEntity<PetResponse> =
         petService.findById(petId)
-            .toResponse()
+            .mapTo(PetResponse::class)
             .let { ResponseEntity.ok(it) }
 
     @PostMapping
@@ -31,7 +31,7 @@ class PetController(
         @RequestBody
         petDTO: PetDTO
     ): ResponseEntity<Long> =
-        petDTO.toEntity()
+        petDTO.mapTo(Pet::class)
             .let { petService.create(it) }
             .let { ResponseEntity.created(URI.create("/pets/$it")).build() }
 

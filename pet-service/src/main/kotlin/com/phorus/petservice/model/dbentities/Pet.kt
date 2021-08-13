@@ -8,7 +8,7 @@ import org.springframework.data.relational.core.mapping.Table
 class Pet(
     @Id
     var id: Long? = null,
-    var name: String,
-    var age: Int,
-    var userId: Long, // Owner
+    var name: String? = null,
+    var age: Int? = null,
+    var userId: Long? = null, // Owner
 )
