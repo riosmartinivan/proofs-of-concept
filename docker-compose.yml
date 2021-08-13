@@ -29,10 +29,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - 9099:8080
+    volumes:
+      - gradle-cache:/root/.gradle
     env_file:
       - ./gateway/.env
-    volumes:
-      - ./gateway:/app/sources
     networks:
       - main
 
@@ -42,10 +42,10 @@ services:
       dockerfile: Dockerfile
     ports: # Can be removed because of the gateway, only enabled for swagger access
       - 9090:8080
+    volumes:
+      - ./gradle:/root/.gradle
     env_file:
       - ./user-service/.env
-    volumes:
-      - ./user-service:/app/sources
     depends_on:
       - users-postgres
     networks:
@@ -58,15 +58,18 @@ services:
       dockerfile: Dockerfile
     ports: # Can be removed because of the gateway, only enabled for swagger access
       - 9091:8080
+    volumes:
+      - ./gradle:/root/.gradle
     env_file:
       - ./pet-service/.env
-    volumes:
-      - ./pet-service:/app/sources
     depends_on:
       - pets-postgres
     networks:
       - pets
       - main
+
+volumes:
+  gradle-cache:
 
 networks:
   main:
@@ -75,3 +78,4 @@ networks:
     driver: bridge
   pets:
     driver: bridge
+

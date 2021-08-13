@@ -8,6 +8,6 @@ import org.springframework.data.relational.core.mapping.Table;
 class User(
     @Id
     var id: Long? = null,
-    var name: String,
-    var age: Int,
+    var name: String? = null,
+    var age: Int? = null,
 )

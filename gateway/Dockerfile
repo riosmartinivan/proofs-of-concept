@@ -5,17 +5,17 @@ MAINTAINER Martin Ivan Rios
 
 WORKDIR /app
 
+ADD ./gradlew ./gradlew
+ADD ./gradle ./gradle
+RUN ./gradlew --version
+
 ADD ./ ./
-RUN java -version
 RUN ./gradlew bootJar -x test
 
 FROM adoptopenjdk/openjdk11:alpine-jre as startup
 MAINTAINER  Martin Ivan Rios
 
 WORKDIR /app
-
-COPY --from=0 ./app ./sources
-RUN ls -la ./sources
 
 # Entrypoint
 ADD ./etc/start.sh /root/start.sh
