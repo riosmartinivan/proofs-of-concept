@@ -1,7 +1,7 @@
 package com.phorus.userservice.controllers;
 
-import com.phorus.userservice.mappings.toEntity
-import com.phorus.userservice.mappings.toResponse
+import com.phorus.userservice.config.mapTo
+import com.phorus.userservice.model.dbentities.User
 import com.phorus.userservice.model.dtos.UserDTO
 import com.phorus.userservice.model.dtos.UserResponse
 import com.phorus.userservice.model.validationGroups.UserCreateValGroup
@@ -22,7 +22,7 @@ class UserController(
     @GetMapping("/{userId}")
     suspend fun get(@PathVariable userId: Long): ResponseEntity<UserResponse> =
         userService.findById(userId)
-            .toResponse()
+            .mapTo(UserResponse::class)
             .let { ResponseEntity.ok(it) }
 
     @PostMapping
@@ -31,7 +31,7 @@ class UserController(
         @RequestBody
         userDTO: UserDTO
     ): ResponseEntity<Long> =
-        userDTO.toEntity()
+        userDTO.mapTo(User::class)
             .let { userService.create(it) }
             .let { ResponseEntity.created(URI.create("/users/$it")).build() }
 

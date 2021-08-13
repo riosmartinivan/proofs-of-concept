@@ -30,8 +30,8 @@ data class PetDTO(
 )
 
 data class PetResponse(
-    val id: Long,
-    val name: String,
-    val age: Int,
-    val userId: Long,
+    var id: Long? = null,
+    var name: String? = null,
+    var age: Int? = null,
+    var userId: Long? = null,
 )

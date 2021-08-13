@@ -27,7 +27,7 @@ data class UserDTO(
 )
 
 data class UserResponse(
-    val id: Long,
-    val name: String,
-    val age: Int,
+    var id: Long? = null,
+    var name: String? = null,
+    var age: Int? = null,
 )
