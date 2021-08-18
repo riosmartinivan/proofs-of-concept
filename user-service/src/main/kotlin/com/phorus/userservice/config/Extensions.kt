@@ -1,9 +1,14 @@
 package com.phorus.userservice.config
 
+import java.util.*
+import kotlin.collections.HashMap
 import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty
+import kotlin.reflect.KProperty
 import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.memberProperties
+import kotlin.reflect.javaType
+import kotlin.reflect.jvm.jvmErasure
 
 inline fun <T: Any, reified B, reified C> Any.mapTo(
     entityClass: KClass<out T>,
@@ -23,10 +28,13 @@ inline fun <T: Any, reified B, reified C> Any.mapTo(
 
                 // If the props have the same name and type, or if the fields have the
                 //  same type and are customMappings, then map them
-                if ((prop.name == it.name || (mappings?.contains(it.name) == true && prop.name == mappings[it.name]))
-                    && originalPropType == targetPropType) {
+                if (prop.name == it.name || (mappings?.contains(it.name) == true && prop.name == mappings[it.name])) {
 
-                    prop.setter.call(entity, originalProp)
+                    if (originalPropType == targetPropType) {
+                        prop.setter.call(entity, originalProp)
+                    } else { // If they are not from the same type, try to map them as embedded objects
+                        prop.setter.call(entity, originalProp.mapTo(prop.returnType.jvmErasure))
+                    }
                 }
 
                 // If custom mappings are provided, and if one of the custom mappings uses
@@ -73,10 +81,13 @@ fun <T: Any> Any.mapTo(
 
                 // If the props have the same name and type, or if the fields have the
                 //  same type and are customMappings, then map them
-                if ((prop.name == it.name || (mappings?.contains(it.name) == true && prop.name == mappings[it.name]))
-                    && originalPropType == targetPropType) {
+                if (prop.name == it.name || (mappings?.contains(it.name) == true && prop.name == mappings[it.name])) {
 
-                    prop.setter.call(entity, originalProp)
+                    if (originalPropType == targetPropType) {
+                        prop.setter.call(entity, originalProp)
+                    } else { // If they are not from the same type, try to map them as embedded objects
+                        prop.setter.call(entity, originalProp.mapTo(prop.returnType.jvmErasure))
+                    }
                 }
             }
         }
