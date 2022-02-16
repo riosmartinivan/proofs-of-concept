@@ -19,3 +19,13 @@ If the link don't work, it may be because docker-compose tried to start the serv
 docker-compose up -d
 ```
 This is going to start the services again if they are not already running.
+
+To see the logs, run:
+```bash
+docker-compose logs -f
+```
+
+To shutdown the service, run:
+```bash
+docker-compose down
+```
